@@ -496,6 +496,7 @@ function patternConversion(pattern) {
     insertPattern(pattern2DArray)
 }
 
+// make each row the same width by filling .
 function insertPattern(patternArray) {
     let patternWidth = getPatternWidth(patternArray)
     let patternHeight = patternArray.length

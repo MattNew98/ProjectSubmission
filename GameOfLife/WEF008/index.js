@@ -18,6 +18,8 @@ let insertBoard = []
 let pattern2DArray = []
 let defaultPattern = true
 var bgm = new Audio('/WEF008/bgm.mp3')
+
+
 function playbgm() {
 
     bgm.play()
@@ -32,8 +34,9 @@ function colorGen() {
     var generateColor = Math.floor(Math.random() * 256);
     return generateColor;
 }
+// set interval for rgb color change
+setInterval(function () { rgbColor = 'rgb(' + colorGen() + ',' + colorGen() + ',' + colorGen() + ')' }, 500)
 
-// window.addEventListener('resize', windowResized)
 function windowResized() {
     resizeCanvas((windowWidth - 400) - ((windowWidth - 400) % 100), (windowHeight - 200) - ((windowHeight - 200) % 100));
     columns = floor(width / unitLength);
@@ -48,10 +51,6 @@ function windowResized() {
     }
     init()
 }
-
-setInterval(function () { rgbColor = 'rgb(' + colorGen() + ',' + colorGen() + ',' + colorGen() + ')' }, 500)
-
-
 
 function setup() {
 
@@ -71,6 +70,7 @@ function setup() {
         nextBoard[i] = []
     }
 
+    // add slider to slider button
     slider = createSlider(0, 30, 15)
     slider.parent(document.querySelector('#slider'))
     // Now both currentBoard and nextBoard are array of array of undefined values.
@@ -79,7 +79,6 @@ function setup() {
 }
 
 function init() {
-    // if (gameMode == 2) {
     for (let i = 0; i < columns; i++) {
         for (let j = 0; j < rows; j++) {
             currentBoard[i][j] = 0
@@ -87,12 +86,9 @@ function init() {
         }
     }
     if (gameMode === 2) { spawnShip(); }
-
-
 }
+
 function draw() {
-
-
     if (rgb === true) {
         boxColor = rgbColor
     }
@@ -148,11 +144,9 @@ setInterval(function () {
         // }
     }
 }, (Math.floor(Math.random() * 3)) * 1000)
-
-
+// not working sometimes, depends on first time loading the page. Cant fix by refreshing page but starting a new one
 
 function generate() {
-
     //Loop over every single box on the board
     for (let x = 0; x < columns; x++) {
         for (let y = 0; y < rows; y++) {
@@ -168,6 +162,7 @@ function generate() {
                     neighbors += currentBoard[(x + i + columns) % columns][(y + j + rows) % rows];
                 }
             }
+            // game of life
             if (gameMode == 1) {
                 //     // Rules of Life
                 if (currentBoard[x][y] == 1 && neighbors < 2) {
@@ -187,8 +182,8 @@ function generate() {
                     nextBoard[x][y] = currentBoard[x][y]
                 }
             }
+            // Space Invader
             else if (gameMode == 2) {
-
                 if (hitCounter == 1) {
                     // console.log('lose')
                     hitCounter = 0
@@ -196,12 +191,10 @@ function generate() {
                     spawnShip()
                     return
                 }
-
                 if (currentBoard[x][y] == 2 && nextBoard[x][y - 1] == 1) {
                     nextBoard[x][y] = 0;
                     currentBoard[x][y] = 0
                     hitCounter++
-                    // console.log('hitCounter: ' + hitCounter);
                     // removeShip when hit
                 }
                 else if (currentBoard[x][y] == 2 && shoot == -3 && neighbors == 2) {
@@ -220,7 +213,7 @@ function generate() {
                     // remove bullet if reaches the top 
                 } else if (currentBoard[x][y] == 3) {
                     currentBoard[x][y] = 0
-                    nextBoard[x][y - 3] = 3
+                    nextBoard[x][y - 2] = 3
                     // bullet moves up
                 } else if (currentBoard[x][y] == 1 && currentBoard[x][y + 1] == 3 || currentBoard[x][y] == 1 && currentBoard[x][y + 2] == 3) {
                     currentBoard[x][y] = 0
@@ -231,25 +224,16 @@ function generate() {
                     nextBoard[x][y + 1] = 1
                     // block falls down
                 } else if (currentBoard[x][y] == 3 && neighbors > 2) {
-
                     currentBoard[x][y] = 3;
                     nextBoard[x][y] = 3;
                 }
-
-
             }
         }
-
     }
-
-    // let temp = currentBoard;
-    // currentBoard = nextBoard;
-    // nextBoard = temp
-    // Swap the nextBoard to be the current Board
     [currentBoard, nextBoard] = [nextBoard, currentBoard];
     frameRate(slider.value())
-
 }
+
 function mouseDragged() {
     /**
      * If the mouse coordinate is outside the board
@@ -261,38 +245,22 @@ function mouseDragged() {
     const y = Math.floor(mouseY / unitLength);
 
     if (gameMode == 1) {
-        // currentBoard[x][y] = 1
-
-
         let patternWidth = getPatternWidth(insertBoard)
         let patternHeight = insertBoard.length
         // console.log(patternWidth, patternHeight, x, y);
-
-
         if (defaultPattern == true) {
             currentBoard[x][y] = 1
         } else {
             for (i = 0; i < patternHeight; i++) {
                 for (j = 0; j < patternWidth; j++) {
-
                     currentBoard[(x + j + columns) % columns][(y + i + rows) % rows] = insertBoard[i][j]
-
                 }
-
             }
         }
-
     }
-    // else if (gameMode == 1) {
-    //     currentBoard[x][y] = 2;
-    //     currentBoard[x + 1][y] = 2;
-    //     currentBoard[x - 1][y] = 2;
-    //     currentBoard[x][y - 1] = 2;
-    // }
     fill(boxColor);
     stroke(strokeColor);
     rect(x * unitLength, y * unitLength, unitLength, unitLength);
-
 }
 
 /**
@@ -341,7 +309,6 @@ function spawnShip() {
 
 function keyPressed() {
     if (key === 'w') {
-
         inputY = -1
         // console.log(`Y:${inputY}`);
     } else if (key === 's') {
@@ -358,7 +325,6 @@ function keyPressed() {
     }
 }
 
-
 function keyReleased() {
     if (key === 'w') {
         inputY = 0
@@ -374,7 +340,6 @@ function keyReleased() {
         // console.log(`X:${inputX}`);
     } else if (key === ' ') {
         shoot = 0
-
     }
 }
 
@@ -412,7 +377,6 @@ colors.addEventListener('change', function (event) {
         boxColor = 150
         rgb = false
     }
-
 })
 
 // change GameMode
@@ -473,13 +437,8 @@ patternSelection.addEventListener('change', function (event) {
 
     }
 })
+
 // PATTERN
-// let pattern = `...O
-// ....O.O.
-// ..OOO..
-
-// ..O..`
-
 let pattern1 =
     `000`
 let pattern2 =
@@ -520,8 +479,7 @@ let pattern7 = `..0.....0
 0.0.....0.0
 ...00.00`
 
-
-
+// v return usable pattern as insertBoard[]
 function patternConversion(pattern) {
     let patternRowStringArray = pattern.split("\n")
     for (i in patternRowStringArray) {

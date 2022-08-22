@@ -1,0 +1,99 @@
+body {
+    background-image: url(./background.jpeg);
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.root {
+    background-color: rgba(32, 33, 36, 0.9);
+    margin-top: 1rem;
+    padding: 1rem;
+
+
+}
+
+#canvas {
+    margin-top: 1rem;
+    background-color: rgba(240, 248, 255, 0.04);
+}
+
+.canvas-row>.col-12 {
+    display: flex;
+    justify-content: center;
+}
+
+.header-row {
+    color: whitesmoke;
+}
+
+.controls-row {
+    align-items: center;
+}
+
+.controls-row>.col-3 {
+    display: flex;
+    justify-content: center;
+}
+
+.restart-button {
+    margin: 5px 0 5px 0;
+    padding: 5px;
+    background-color: lightslategrey;
+    color: whitesmoke;
+    width: 5rem;
+    height: 2rem;
+    text-align: center;
+    border-style: double;
+    border-radius: 10%;
+}
+
+.restart-button:hover {
+    cursor: pointer;
+    background-color: whitesmoke;
+    color: lightslategrey
+}
+
+.start-button {
+
+    margin: 5px 0 5px 0;
+    padding: 5px;
+    background-color: lightslategrey;
+    color: whitesmoke;
+    width: 5rem;
+    height: 2rem;
+    text-align: center;
+    border-style: double;
+    border-radius: 10%;
+}
+
+.start-button:hover {
+    cursor: pointer;
+    background-color: whitesmoke;
+    color: lightslategrey
+}
+
+.pause-button {
+
+    margin: 5px 0 5px 0;
+    padding: 5px;
+    background-color: lightslategrey;
+    color: whitesmoke;
+    width: 5rem;
+    height: 2rem;
+    text-align: center;
+    border-style: double;
+    border-radius: 10%;
+}
+
+.pause-button:hover {
+    cursor: pointer;
+    background-color: whitesmoke;
+    color: lightslategrey
+}
+
+#slider {
+    color: whitesmoke;
+    ;
+}
